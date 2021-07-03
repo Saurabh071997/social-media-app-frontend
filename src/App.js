@@ -1,56 +1,70 @@
-import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
-import './App.css';
+import axios from 'axios'
+import React from "react";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
+import { Routes, Route , useNavigate} from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import "./App.css";
+import { LandingPage } from "./pages/LandingPage";
+import { LoginPage } from "./pages/LoginPage";
+import { SignupPage } from "./pages/SignupPage";
+import {PrivateRoute} from './components/PrivateRoute'
+import {Home} from './components/Home'
+import {toggleToast} from "./features/toast/toastSlice"
+import {logoutUser, getUserDetails} from './features/auth/authSlice'
+import {setupAuthExceptionHandler} from './utils/setAuthExceptionHandler'
+import {Profile} from './features/profile/Profile'
+import {EditProfile} from './features/profile/EditProfile'
 
 function App() {
+  const { toastActive, toastMessage } = useSelector((state) => state.toast);
+  const {status, accessToken} = useSelector(state => state.auth)
+  // const {status} = useSelector(state => state.auth)
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  useEffect(()=>{
+    function notify() {
+      setTimeout(() => {
+        dispatch(toggleToast({ payload: { toggle: false , message:null} }));
+        toast(`${toastMessage}`, {
+          className: "toast-class",
+          closeButton: true
+        });
+      }, 1000);
+    }
+    toastActive && notify()
+  },[toastActive, toastMessage, dispatch])
+
+  setupAuthExceptionHandler(logoutUser,navigate, dispatch)
+
+  // useEffect(()=>{
+  //   setupAuthExceptionHandler(logoutUser,navigate, dispatch)
+  //   // eslint-disable-next-line
+  // },[])
+
+
+
+  useEffect(()=>{
+    if(status === "tokenReceived"){
+      axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+      dispatch(getUserDetails())
+    }
+  },[status, accessToken, dispatch])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
+      <Routes>
+        <Route path="/welcome" element={<LandingPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignupPage />} />
+        <PrivateRoute path="/" element={<Home/>} />
+        <PrivateRoute path="/profile/view/:profileId" element={<Profile/>}/>
+        <PrivateRoute path="/profile/edit" element={<EditProfile/>} />
+      </Routes>
+
+      <ToastContainer />
     </div>
   );
 }
