@@ -76,7 +76,7 @@ export const NavigationMob = () => {
         <IconButton onClick={()=> navigate('/')}>
           <HomeIcon className={classes.navMobIcon} />
         </IconButton>
-        <IconButton>
+        <IconButton onClick={()=> navigate('/search')}>
           <SearchIcon className={classes.navMobIcon} />
         </IconButton>
         <IconButton>

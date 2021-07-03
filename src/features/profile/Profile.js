@@ -193,5 +193,5 @@ export const Profile = () => {
     authStatus === "user_available" && dispatch(getUserProfile(profileId));
   }, [dispatch, profileId, authStatus]);
 
-  return width < 600 ? <ProfileMob /> : <ProfileDesktop />;
+  return width <= 600 ? <ProfileMob /> : <ProfileDesktop />;
 };

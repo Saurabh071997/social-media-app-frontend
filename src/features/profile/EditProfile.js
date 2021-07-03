@@ -25,7 +25,7 @@ export const EditProfileLayout = () => {
   const classes = useStyle();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  // const { currentUser } = useSelector((state) => state.auth);
+  const { currentUser } = useSelector((state) => state.auth);
   const { status: profileStatus, profileUser } = useSelector(
     (state) => state.profile
   );
@@ -42,14 +42,14 @@ export const EditProfileLayout = () => {
   useEffect(() => {
     if (profileStatus === "updated") {
       dispatch(toggleToast({ toggle: true, message: "Profile Updated !!" }));
-      navigate(`/profile/view/${profileUser?._id}`);
+      navigate(`/profile/view/${currentUser?._id}`);
     }
     if (profileStatus === "error_409") {
       dispatch(
         toggleToast({ toggle: true, message: `Username already exists!!` })
       );
     }
-  }, [profileStatus, dispatch, navigate, profileUser?._id]);
+  }, [profileStatus, dispatch, navigate, currentUser?._id]);
 
   const imageHandler = async (file) => {
     setuploadStatus(true);
@@ -297,5 +297,5 @@ export const EditProfileMob = () => {
 
 export const EditProfile = () => {
   const [, width] = useWindowSize();
-  return width < 600 ? <EditProfileMob /> : <EditProfileDesktop />;
+  return width <= 600 ? <EditProfileMob /> : <EditProfileDesktop />;
 };

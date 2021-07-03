@@ -16,6 +16,7 @@ import {logoutUser, getUserDetails} from './features/auth/authSlice'
 import {setupAuthExceptionHandler} from './utils/setAuthExceptionHandler'
 import {Profile} from './features/profile/Profile'
 import {EditProfile} from './features/profile/EditProfile'
+import {Search} from './features/search/Search'
 
 function App() {
   const { toastActive, toastMessage } = useSelector((state) => state.toast);
@@ -44,8 +45,6 @@ function App() {
   //   // eslint-disable-next-line
   // },[])
 
-
-
   useEffect(()=>{
     if(status === "tokenReceived"){
       axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
@@ -62,6 +61,7 @@ function App() {
         <PrivateRoute path="/" element={<Home/>} />
         <PrivateRoute path="/profile/view/:profileId" element={<Profile/>}/>
         <PrivateRoute path="/profile/edit" element={<EditProfile/>} />
+        <PrivateRoute path="/search" element={<Search/>} />
       </Routes>
 
       <ToastContainer />
