@@ -1,8 +1,8 @@
-// import axios from "axios";
-import { AppBar, Toolbar, Button } from "@material-ui/core";
+import { AppBar, Toolbar, Button, Typography } from "@material-ui/core";
 import EventIcon from "@material-ui/icons/Event";
 import EmailIcon from "@material-ui/icons/Email";
 import RoomIcon from "@material-ui/icons/Room";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,19 +10,80 @@ import { useWindowSize } from "../../utils/useWindowSize";
 import useAppStyle from "../../appStyle";
 import useStyle from "./profileStyle";
 import { NavigationMob } from "../../components/NavigationMob";
-import { getUserProfile } from "./profileSlice";
+import { ProfileCard } from "../../components/ProfileCard";
+import {
+  getUserProfile,
+  handleUserFollow,
+  handleUserUnFollow,
+} from "./profileSlice";
+import { userFollowed, userUnFollowed } from "../auth/authSlice";
 import default_img from "../../images/profile.jpg";
-import { Typography } from "@material-ui/core";
 
 export const ProfileLayout = () => {
   const classes = useStyle();
-  const { profileUser } = useSelector((state) => state.profile);
-  const { currentUser } = useSelector((state) => state.auth);
-  const navigate = useNavigate()
+  const dispatch = useDispatch();
+  const {
+    profileUser,
+    status: profileStatus,
+    profileUserFollowing,
+    profileUserFollowers,
+  } = useSelector((state) => state.profile);
+  const { currentUser, userFollowing } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
 
   const [pageState, setPageState] = useState("posts");
 
-  return (
+  const followHandler = () => {
+    dispatch(
+      handleUserFollow({
+        currentId: currentUser?._id,
+        currentName: currentUser?.name,
+        currentUsername: currentUser?.username,
+        currentImg: currentUser?.profileImg,
+        profileId: profileUser?._id,
+      })
+    );
+  };
+
+  const unfollowHandler = () => {
+    dispatch(
+      handleUserUnFollow({
+        currentId: currentUser?._id,
+        currentName: currentUser?.name,
+        currentUsername: currentUser?.username,
+        currentImg: currentUser?.profileImg,
+        profileId: profileUser?._id,
+      })
+    );
+  };
+
+  useEffect(() => {
+    profileStatus === "follow_fulfilled" &&
+      dispatch(
+        userFollowed({
+          profile_user_id: profileUser?._id,
+          profile_user_name: profileUser?.name,
+          profile_user_username: profileUser?.username,
+          profile_user_img: profileUser?.profileImg,
+        })
+      );
+
+    profileStatus === "unfollow_fulfilled" &&
+      dispatch(userUnFollowed({ userprofileId: profileUser?._id }));
+  }, [
+    profileStatus,
+    dispatch,
+    profileUser?._id,
+    profileUser?.name,
+    profileUser?.profileImg,
+    profileUser?.username,
+  ]);
+
+  return profileStatus === "profile_pending" ? (
+    <div style={{ textAlign: "center", margin: "2rem auto" }}>
+      <CircularProgress className={classes.circularProgress} />
+    </div>
+  ) : (
     <>
       <AppBar position="sticky">
         <Toolbar className={classes.navLayout}>Profile</Toolbar>
@@ -53,7 +114,7 @@ export const ProfileLayout = () => {
               variant="contained"
               color="primary"
               className={classes.btnEdit}
-              onClick={()=>navigate('/profile/edit')}
+              onClick={() => navigate("/profile/edit")}
             >
               Edit Profile
             </Button>
@@ -61,7 +122,11 @@ export const ProfileLayout = () => {
         )}
 
         {profileUser?.bio && (
-          <Typography variant="body1" gutterBottom style={{ color: "#E2E8F0" , padding:"0.5rem"}}>
+          <Typography
+            variant="body1"
+            gutterBottom
+            style={{ color: "#E2E8F0", padding: "0.5rem" }}
+          >
             {profileUser?.bio}
           </Typography>
         )}
@@ -71,7 +136,7 @@ export const ProfileLayout = () => {
             <EventIcon className={classes.profileExtraIcon} />
             <Typography className={classes.profileExtraTxt}>Joined:</Typography>
             <Typography className={classes.profileExtraInfo}>
-              {`${" "}${profileUser?.createdAt.split("T")[0]}`}
+              {`${" "}${profileUser?.createdAt?.split("T")[0]}`}
             </Typography>
           </div>
 
@@ -102,6 +167,43 @@ export const ProfileLayout = () => {
             </div>
           )}
         </div>
+
+        {profileUser?._id !== currentUser?._id && (
+          <div>
+            {userFollowing?.find(
+              (followingObj) =>
+                followingObj?.__follows?._id === profileUser?._id
+            ) ? (
+              <div>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  className={classes.btnEdit}
+                  onClick={unfollowHandler}
+                >
+                  Unfollow{" "}
+                </Button>
+                {profileStatus === "pending" && (
+                  <CircularProgress className={classes.progressSmall} />
+                )}
+              </div>
+            ) : (
+              <div>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  className={classes.btnEdit}
+                  onClick={followHandler}
+                >
+                  Follow{" "}
+                </Button>{" "}
+                {profileStatus === "pending" && (
+                  <CircularProgress className={classes.progressSmall} />
+                )}
+              </div>
+            )}
+          </div>
+        )}
 
         <div style={{ display: "flex" }}>
           <div style={{ display: "flex", padding: "0.25rem 0.5rem" }}>
@@ -162,7 +264,34 @@ export const ProfileLayout = () => {
             Followers
           </Typography>
         </div>
-      
+
+        <div className={classes.profileSectionContent} >
+          {pageState === "following" && (
+            <div className={classes.flexCol} >
+              {profileUserFollowing?.map((followItem) => {
+                const userObj = followItem?.__follows;
+                return (
+                  <div key={followItem?.__follows?._id}>
+                    <ProfileCard profileItem={userObj} />
+                  </div>
+                );
+              })}
+            </div>
+          )}
+
+          {pageState === "followers" && (
+            <div className={classes.flexCol}>
+              {profileUserFollowers?.map((followItem) => {
+                const userObj = followItem?.__user;
+                return (
+                  <div key={followItem?.__user?._id}>
+                    <ProfileCard profileItem={userObj} />
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
       </div>
     </>
   );

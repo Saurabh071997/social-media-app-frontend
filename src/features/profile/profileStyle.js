@@ -10,7 +10,6 @@ export default makeStyles(()=>({
 
     componentBlock: {
         marginTop:"1rem",
-        // backgroundColor:"red",
         display:"flex",
         flexDirection:"column",
         position:"relative" 
@@ -41,6 +40,7 @@ export default makeStyles(()=>({
     btnEdit: {
         backgroundColor:"#3B82F6",
         fontSize:"1rem",
+        marginLeft:"1rem",
         margin:"1rem 0.25rem",
         '&:hover':{
             backgroundColor:"#3B82F6"
@@ -103,6 +103,22 @@ export default makeStyles(()=>({
         fontSize:"1.15rem",
         padding:"0.25rem 0rem", 
         fontWeight:"bold"
+    },
+
+    profileSectionContent:{
+        margin:"0.75rem 0.25rem"
+    },
+
+    circularProgress:{
+        height:"3rem",
+        width:"3rem",
+        color:"#F1F5F9"
+    },
+    
+    progressSmall: {
+        color:"#F1F5F9",
+        height:"0.5rem",
+        width:"0.5rem"
     }
 
 }))

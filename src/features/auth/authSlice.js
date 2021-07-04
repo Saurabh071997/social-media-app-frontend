@@ -39,12 +39,10 @@ export const loginUserWithCredentials = createAsyncThunk(
 export const getUserDetails = createAsyncThunk(
   "auth/getUserDetails",
   async () => {
-      let response = await getUserData();
-      return response?.data
+    let response = await getUserData();
+    return response?.data;
   }
 );
-
-
 
 const authSlice = createSlice({
   name: "auth",
@@ -54,6 +52,8 @@ const authSlice = createSlice({
       : "idle",
     statusCode: null,
     currentUser: null,
+    userFollowers: null,
+    userFollowing: null,
     accessToken: JSON.parse(localStorage?.getItem("accessToken")) || null,
     error: null,
   },
@@ -64,6 +64,8 @@ const authSlice = createSlice({
       state.status = "idle";
       state.currentUser = null;
       state.accessToken = null;
+      state.userFollowing = null;
+      state.userFollowers = null;
       state.error = null;
     },
 
@@ -71,6 +73,28 @@ const authSlice = createSlice({
       state.status = "idle";
       state.error = null;
       state.statusCode = null;
+    },
+
+    userFollowed: (state, action) => {
+      state.status = "new_following";
+      const newFollowingEntry = {
+        __user: state.currentUser?._id,
+        __follows: {
+          _id: action.payload?.profile_user_id,
+          name: action.payload?.profile_user_name,
+          username: action.payload?.profile_user_username,
+          profileImg: action.payload?.profile_user_img,
+        },
+      };
+      state.userFollowing.push(newFollowingEntry);
+    },
+
+    userUnFollowed: (state, action) => {
+      state.status = "unfollowed";
+      state.userFollowing = state.userFollowing?.filter(
+        (followItem) =>
+          followItem?.__follows?._id !== action.payload.userprofileId
+      );
     },
   },
 
@@ -118,21 +142,24 @@ const authSlice = createSlice({
       state.error = responseObj.errorMessage;
     },
 
-    [getUserDetails.pending]: (state) =>{
-      state.status = "pending"
+    [getUserDetails.pending]: (state) => {
+      state.status = "pending";
     },
 
     [getUserDetails.fulfilled]: (state, action) => {
-      state.status= "user_available"
-      state.currentUser = action.payload.data
+      state.status = "user_available";
+      state.currentUser = action.payload.data?.user;
+      state.userFollowing = action.payload.data?.followResponse?.following;
+      state.userFollowers = action.payload.data?.followResponse?.followers;
     },
 
     [getUserDetails.rejected]: (state) => {
-      state.status = "error"
-    }
+      state.status = "error";
+    },
   },
 });
 
-export const { logoutUser, resetAuthStatus } = authSlice.actions;
+export const { logoutUser, resetAuthStatus, userFollowed, userUnFollowed } =
+  authSlice.actions;
 
 export default authSlice.reducer;
