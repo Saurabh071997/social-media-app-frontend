@@ -74,7 +74,7 @@ export const EditProfileLayout = () => {
   const uploadHandler = (e) => {
     if (e.target.files.length === 1) {
       let file = e.target.files[0];
-      if (file.size / (1024 * 1024) > 5) {
+      if ((file.size / (1024 * 1024)) > 5) {
         setPageError("IMAGE_SIZE");
       } else {
         imageHandler(file);

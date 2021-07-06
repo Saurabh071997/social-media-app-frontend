@@ -1,8 +1,8 @@
 import { useWindowSize } from "../utils/useWindowSize";
 import useAppStyle from "../appStyle";
-import {NavigationMob} from './NavigationMob'
-import {Sidebar} from "./Sidebar"
-
+import { NavigationMob } from "./NavigationMob";
+import { Sidebar } from "./Sidebar";
+import { Feed } from "../features/post/Feed";
 
 export const MobileHome = () => {
   const classes = useAppStyle();
@@ -10,10 +10,10 @@ export const MobileHome = () => {
   return (
     <div className={classes.pageContainer}>
       <NavigationMob />
+      <Feed/>
     </div>
   );
 };
-
 
 export const DesktopHome = () => {
   const classes = useAppStyle();

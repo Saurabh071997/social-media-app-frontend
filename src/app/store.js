@@ -3,12 +3,14 @@ import toastReducer from "../features/toast/toastSlice";
 import authReducer from "../features/auth/authSlice";
 import profileReducer from '../features/profile/profileSlice'
 import searchReducer from '../features/search/searchSlice'
+import postReducer from '../features/post/postSlice'
 
 export const store = configureStore({
   reducer: {
     toast: toastReducer,
     auth: authReducer,
     profile: profileReducer,
-    search: searchReducer
+    search: searchReducer,
+    post: postReducer
   },
 });

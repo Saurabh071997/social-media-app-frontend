@@ -28,7 +28,7 @@ export const uploadProfileImg = async (file) => {
           body: formData,
       }
   );
-  response = response.json()
+  response = await response.json()
   return response
   
 };

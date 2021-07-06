@@ -40,8 +40,7 @@ export default makeStyles(()=>({
     btnEdit: {
         backgroundColor:"#3B82F6",
         fontSize:"1rem",
-        marginLeft:"1rem",
-        margin:"1rem 0.25rem",
+        margin:"1rem",
         '&:hover':{
             backgroundColor:"#3B82F6"
         }

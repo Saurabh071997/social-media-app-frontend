@@ -64,7 +64,7 @@ export const NavigationMob = () => {
       <AppBar position="sticky">
         <Toolbar className={classes.navMobTop}>
           <img src={app_img} alt="img" className={classes.navMobImg} />
-          <IconButton>
+          <IconButton onClick={()=>navigate('/post/new')}>
             <CreateIcon className={classes.navMobIcon} />
           </IconButton>
         </Toolbar>

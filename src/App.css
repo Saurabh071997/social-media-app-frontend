@@ -1,16 +1,53 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap");
 
-body{
+body {
   padding: 0px;
   margin: 0px;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
 }
 
 .App {
-  padding:0px;
+  padding: 0px;
   margin: 0px;
 }
 
 .toast-class {
   width: 97%;
+}
+
+.post-media-container {
+  width: 95%;
+  margin: 0.5rem auto 1rem auto;
+  display: flex;
+  overflow-x: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.post-media-container::-webkit-scrollbar {
+  display: none;
+}
+
+.post-comment-sub {
+  display: flex;
+  flex-direction: column-reverse;
+  margin: 0.5rem 0rem 1rem 0rem;
+  padding: 0.5rem;
+  max-height: 10vh;
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+
+.post-comment-sub::-webkit-scrollbar {
+  width: 2px;
+}
+
+.post-comment-sub::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.post-comment-sub::-webkit-scrollbar-thumb {
+  background: #475569;
 }

@@ -18,6 +18,7 @@ import {
 } from "./profileSlice";
 import { userFollowed, userUnFollowed } from "../auth/authSlice";
 import default_img from "../../images/profile.jpg";
+import { PostCard } from "../post/PostCard";
 
 export const ProfileLayout = () => {
   const classes = useStyle();
@@ -27,6 +28,7 @@ export const ProfileLayout = () => {
     status: profileStatus,
     profileUserFollowing,
     profileUserFollowers,
+    profileUserPosts,
   } = useSelector((state) => state.profile);
   const { currentUser, userFollowing } = useSelector((state) => state.auth);
   const navigate = useNavigate();
@@ -265,9 +267,9 @@ export const ProfileLayout = () => {
           </Typography>
         </div>
 
-        <div className={classes.profileSectionContent} >
+        <div className={classes.profileSectionContent}>
           {pageState === "following" && (
-            <div className={classes.flexCol} >
+            <div className={classes.flexCol}>
               {profileUserFollowing?.map((followItem) => {
                 const userObj = followItem?.__follows;
                 return (
@@ -286,6 +288,18 @@ export const ProfileLayout = () => {
                 return (
                   <div key={followItem?.__user?._id}>
                     <ProfileCard profileItem={userObj} />
+                  </div>
+                );
+              })}
+            </div>
+          )}
+
+          {pageState === "posts" && (
+            <div style={{ display: "flex", flexDirection: "column-reverse" }}>
+              {profileUserPosts?.map((postItem) => {
+                return (
+                  <div key={postItem?._id}>
+                    <PostCard post={postItem} type="PROFILE_POST" />
                   </div>
                 );
               })}
