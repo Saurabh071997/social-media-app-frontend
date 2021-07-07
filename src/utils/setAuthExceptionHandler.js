@@ -18,6 +18,7 @@ export const setupAuthExceptionHandler = (logoutUser, navigate, dispatch) => {
         dispatch(logoutUser());
         navigate("/login");
       }else if(error?.response?.status === 500){
+        // console.log(error?.response)
         dispatch(
             toggleToast({ toggle: true, message: "something went wrong" })
           );

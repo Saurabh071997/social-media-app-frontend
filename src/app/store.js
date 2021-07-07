@@ -4,6 +4,7 @@ import authReducer from "../features/auth/authSlice";
 import profileReducer from '../features/profile/profileSlice'
 import searchReducer from '../features/search/searchSlice'
 import postReducer from '../features/post/postSlice'
+import notificationReducer from '../features/notification/notificationSlice'
 
 export const store = configureStore({
   reducer: {
@@ -11,6 +12,7 @@ export const store = configureStore({
     auth: authReducer,
     profile: profileReducer,
     search: searchReducer,
-    post: postReducer
+    post: postReducer,
+    notification: notificationReducer
   },
 });

@@ -10,8 +10,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import useAppStyle from "../appStyle";
 import app_img from "../images/icon.gif";
 import { useState } from "react";
-import {logoutUser} from '../features/auth/authSlice'
-
+import { logoutUser } from "../features/auth/authSlice";
 
 export const NavigationMob = () => {
   const classes = useAppStyle();
@@ -19,7 +18,7 @@ export const NavigationMob = () => {
   const { currentUser } = useSelector((state) => state.auth);
 
   const navigate = useNavigate();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const Modal = () => {
     return (
@@ -40,10 +39,13 @@ export const NavigationMob = () => {
           </Typography>
         </div>
 
-        <div style={{ display: "flex" }} onClick={()=>{
-          dispatch(logoutUser())
-          navigate('/welcome')
-        }}>
+        <div
+          style={{ display: "flex" }}
+          onClick={() => {
+            dispatch(logoutUser());
+            navigate("/welcome");
+          }}
+        >
           <ExitToAppIcon
             className={classes.sidebarDivIcon}
             style={{ color: "#EF4444" }}
@@ -64,7 +66,7 @@ export const NavigationMob = () => {
       <AppBar position="sticky">
         <Toolbar className={classes.navMobTop}>
           <img src={app_img} alt="img" className={classes.navMobImg} />
-          <IconButton onClick={()=>navigate('/post/new')}>
+          <IconButton onClick={() => navigate("/post/new")}>
             <CreateIcon className={classes.navMobIcon} />
           </IconButton>
         </Toolbar>
@@ -73,13 +75,13 @@ export const NavigationMob = () => {
       {showModal && <Modal />}
 
       <div className={classes.navMobBottom}>
-        <IconButton onClick={()=> navigate('/')}>
+        <IconButton onClick={() => navigate("/")}>
           <HomeIcon className={classes.navMobIcon} />
         </IconButton>
-        <IconButton onClick={()=> navigate('/search')}>
+        <IconButton onClick={() => navigate("/search")}>
           <SearchIcon className={classes.navMobIcon} />
         </IconButton>
-        <IconButton>
+        <IconButton onClick={() => navigate("/notifications")}>
           <NotificationsIcon className={classes.navMobIcon} />
         </IconButton>
         <IconButton

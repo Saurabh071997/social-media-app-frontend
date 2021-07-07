@@ -17,6 +17,7 @@ import { Profile } from "./features/profile/Profile";
 import { EditProfile } from "./features/profile/EditProfile";
 import { Search } from "./features/search/Search";
 import { NewPost } from "./features/post/NewPost";
+import { Notifications } from "./features/notification/Notifications";
 import { setupAuthExceptionHandler } from "./utils/setAuthExceptionHandler";
 
 function App() {
@@ -64,6 +65,7 @@ function App() {
         <PrivateRoute path="/profile/edit" element={<EditProfile />} />
         <PrivateRoute path="/search" element={<Search />} />
         <PrivateRoute path="/post/new" element={<NewPost />} />
+        <PrivateRoute path="/notifications" element={<Notifications />} />
       </Routes>
 
       <ToastContainer />
