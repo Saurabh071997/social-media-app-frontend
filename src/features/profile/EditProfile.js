@@ -5,8 +5,9 @@ import {
   TextField,
   Typography,
   Button,
+  Grid,
 } from "@material-ui/core";
-import ImageIcon from "@material-ui/icons/Image";
+import CameraAltIcon from "@material-ui/icons/CameraAlt";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
@@ -15,6 +16,7 @@ import { useWindowSize } from "../../utils/useWindowSize";
 import useAppStyle from "../../appStyle";
 import useStyle from "./editProfileStyle";
 import { NavigationMob } from "../../components/NavigationMob";
+import { Sidebar } from "../../components/Sidebar";
 import default_img from "../../images/profile.jpg";
 import { updateUserProfile } from "./profileSlice";
 import { toggleToast } from "../toast/toastSlice";
@@ -26,17 +28,15 @@ export const EditProfileLayout = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { currentUser } = useSelector((state) => state.auth);
-  const { status: profileStatus, profileUser } = useSelector(
-    (state) => state.profile
-  );
+  const { status: profileStatus } = useSelector((state) => state.profile);
   const [uploadStatus, setuploadStatus] = useState(false);
   const [pageError, setPageError] = useState(null);
   const [pageState, setPageState] = useState({
-    name: profileUser?.name ? profileUser?.name : null,
-    username: profileUser?.username ? profileUser?.username : null,
-    profileImg: profileUser?.profileImg ? profileUser?.profileImg : null,
-    bio: profileUser?.bio ? profileUser?.bio : null,
-    location: profileUser?.location ? profileUser?.location : null,
+    name: currentUser?.name ? currentUser?.name : null,
+    username: currentUser?.username ? currentUser?.username : null,
+    profileImg: currentUser?.profileImg ? currentUser?.profileImg : null,
+    bio: currentUser?.bio ? currentUser?.bio : null,
+    location: currentUser?.location ? currentUser?.location : null,
   });
 
   useEffect(() => {
@@ -74,7 +74,7 @@ export const EditProfileLayout = () => {
   const uploadHandler = (e) => {
     if (e.target.files.length === 1) {
       let file = e.target.files[0];
-      if ((file.size / (1024 * 1024)) > 5) {
+      if (file.size / (1024 * 1024) > 5) {
         setPageError("IMAGE_SIZE");
       } else {
         imageHandler(file);
@@ -88,26 +88,39 @@ export const EditProfileLayout = () => {
       setPageError("USERNAME_FORMAT");
       return false;
     }
+    if (!pageState?.name || pageState?.name?.length < 1) {
+      setPageError("NAME_FORMAT");
+      return false;
+    }
+
     return true;
   };
 
   const updateHandler = () => {
     validateProfile() &&
-    dispatch(
-      updateUserProfile({
-        name: pageState?.name,
-        username: pageState?.username,
-        profileImg: pageState?.profileImg,
-        bio: pageState?.bio,
-        location: pageState?.location,
-      })
-    );
+      dispatch(
+        updateUserProfile({
+          name: pageState?.name,
+          username: pageState?.username,
+          profileImg: pageState?.profileImg,
+          bio: pageState?.bio,
+          location: pageState?.location,
+        })
+      );
   };
 
   return (
     <>
       <AppBar position="sticky">
-        <Toolbar className={classes.navLayout}>Update Profile</Toolbar>
+        <Toolbar className={classes.navLayout}>
+          <Typography align="left" className={classes.pageTitle}>
+            Update Profile
+          </Typography>
+
+          {profileStatus === "pending" && (
+            <CircularProgress size="2rem" className={classes.pageProgress} />
+          )}
+        </Toolbar>
       </AppBar>
 
       <div className={classes.flexCol}>
@@ -132,9 +145,16 @@ export const EditProfileLayout = () => {
               onChange={uploadHandler}
             />
             <div>
-              <label htmlFor="upload_img">
-                <ImageIcon className={classes.uploadIcon} />
-              </label>
+              <Button
+                variant="contained"
+                color="primary"
+                startIcon={<CameraAltIcon />}
+                className={classes.btnUpload}
+              >
+                <label htmlFor="upload_img" style={{ cursor: "pointer" }}>
+                  Upload Photo
+                </label>
+              </Button>
             </div>
           </div>
 
@@ -155,7 +175,7 @@ export const EditProfileLayout = () => {
         <Container maxWidth="sm" className={classes.fieldContainer}>
           <TextField
             label="Name"
-            defaultValue={profileUser?.name}
+            defaultValue={currentUser?.name}
             className={classes.inputFields}
             style={{ width: width < 600 ? "100%" : "60%" }}
             InputLabelProps={{
@@ -178,9 +198,19 @@ export const EditProfileLayout = () => {
             }}
           />
 
+          {pageError === "NAME_FORMAT" && (
+            <Typography
+              align="center"
+              variant="body1"
+              style={{ color: "#EF4444" }}
+            >
+              {`Name field cannot be empty`}
+            </Typography>
+          )}
+
           <TextField
             label="Username"
-            defaultValue={profileUser?.username}
+            defaultValue={currentUser?.username}
             className={classes.inputFields}
             style={{ width: width < 600 ? "100%" : "60%" }}
             InputLabelProps={{
@@ -218,7 +248,7 @@ export const EditProfileLayout = () => {
             label="Bio"
             multiline
             rows={4}
-            defaultValue={profileUser?.bio}
+            defaultValue={currentUser?.bio}
             className={classes.inputFields}
             style={{ width: width < 600 ? "100%" : "60%" }}
             InputLabelProps={{
@@ -243,7 +273,7 @@ export const EditProfileLayout = () => {
 
           <TextField
             label="Location"
-            defaultValue={profileUser?.location}
+            defaultValue={currentUser?.location}
             className={classes.inputFields}
             style={{ width: width < 600 ? "100%" : "60%" }}
             InputLabelProps={{
@@ -282,7 +312,21 @@ export const EditProfileLayout = () => {
 };
 
 export const EditProfileDesktop = () => {
-  return <></>;
+  const classes = useAppStyle();
+  return (
+    <div className={classes.pageContainer}>
+      <Container maxWidth="lg">
+        <Grid container direction="row">
+          <Grid item className="flex-left">
+            <Sidebar />
+          </Grid>
+          <Grid item className={classes.flexRight}>
+            <EditProfileLayout />
+          </Grid>
+        </Grid>
+      </Container>
+    </div>
+  );
 };
 
 export const EditProfileMob = () => {
@@ -297,5 +341,5 @@ export const EditProfileMob = () => {
 
 export const EditProfile = () => {
   const [, width] = useWindowSize();
-  return width <= 600 ? <EditProfileMob /> : <EditProfileDesktop />;
+  return width <= 700 ? <EditProfileMob /> : <EditProfileDesktop />;
 };

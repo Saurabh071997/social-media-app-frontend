@@ -19,6 +19,7 @@ import { Search } from "./features/search/Search";
 import { NewPost } from "./features/post/NewPost";
 import { Notifications } from "./features/notification/Notifications";
 import { setupAuthExceptionHandler } from "./utils/setAuthExceptionHandler";
+import {Footer} from './components/Footer'
 
 function App() {
   const { toastActive, toastMessage } = useSelector((state) => state.toast);
@@ -69,6 +70,9 @@ function App() {
       </Routes>
 
       <ToastContainer />
+
+      <Footer/>
+      
     </div>
   );
 }

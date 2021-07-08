@@ -35,8 +35,8 @@ body {
   padding: 0.5rem;
   max-height: 10vh;
   overflow-y: scroll;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+  -ms-overflow-style: scroll;
+  scrollbar-width: 2px;
 }
 
 
@@ -50,4 +50,33 @@ body {
 
 .post-comment-sub::-webkit-scrollbar-thumb {
   background: #475569;
+}
+
+.flex-left {
+  /* background-color:green; */
+  width: 25%;
+  flex-shrink: 1;
+  height: 90vh;
+  position: sticky;
+  top: 0rem;
+  overflow:scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.flex-left::-webkit-scrollbar {
+  display: none;
+}
+
+.profile-text{
+  color:#E2E8F0;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: auto;
+}
+
+.footer{
+  padding:2rem 1rem;
+  background-color: #0F172A;
+  min-height: 30vh;
 }

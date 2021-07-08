@@ -46,7 +46,7 @@ const notificationSlice = createSlice({
     },
 
     [updateUserNotifications.pending]: (state) => {
-      state.status = "update_pending";
+      state.status = "pending";
     },
 
     [updateUserNotifications.fulfilled]: (state, action) => {

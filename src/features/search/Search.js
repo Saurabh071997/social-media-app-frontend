@@ -1,4 +1,10 @@
-import { AppBar, Toolbar, Typography } from "@material-ui/core";
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Container,
+  Grid,
+} from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { useState, useEffect } from "react";
@@ -6,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import useAppStyle from "../../appStyle";
 import useStyle from "./searchStyle";
 import { NavigationMob } from "../../components/NavigationMob";
+import { Sidebar } from "../../components/Sidebar";
 import { useWindowSize } from "../../utils/useWindowSize";
 import { searchUsers, resetSearch } from "./searchSlice";
 import { ProfileCard } from "../../components/ProfileCard";
@@ -80,7 +87,21 @@ export const SearchLayout = () => {
 };
 
 export const SearchDesktop = () => {
-  return <></>;
+  const classes = useAppStyle();
+  return (
+    <div className={classes.pageContainer}>
+      <Container maxWidth="lg">
+        <Grid container direction="row">
+          <Grid item className="flex-left">
+            <Sidebar />
+          </Grid>
+          <Grid item className={classes.flexRight}>
+            <SearchLayout />
+          </Grid>
+        </Grid>
+      </Container>
+    </div>
+  );
 };
 
 export const SearchMob = () => {
@@ -100,5 +121,5 @@ export const Search = () => {
     // eslint-disable-next-line
   }, []);
   const [, width] = useWindowSize();
-  return width <= 600 ? <SearchMob /> : <SearchDesktop />;
+  return width <= 700 ? <SearchMob /> : <SearchDesktop />;
 };

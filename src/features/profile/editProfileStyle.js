@@ -3,14 +3,23 @@ import { makeStyles } from "@material-ui/core/styles";
 export default makeStyles((theme) => ({
   navLayout: {
     backgroundColor: "#334155",
+    disply: "flex",
+    justifyContent: "space-between",
+    borderBottom: "1px solid #F1F5F9",
+  },
+
+  pageTitle: {
     fontSize: "1.5rem",
     color: "#F1F5F9",
-    borderBottom: "1px solid #F1F5F9",
   },
 
   flexCol: {
     display: "flex",
     flexDirection: "column",
+  },
+
+  pageProgress: {
+    color: "#F1F5F9",
   },
 
   flexRow: {
@@ -59,10 +68,12 @@ export default makeStyles((theme) => ({
     },
   },
 
-  uploadIcon: {
-    height: "2rem",
-    width: "2rem",
-    color: "#CBD5E1",
+  btnUpload:{
+    cursor:"pointer",
+    backgroundColor: "#0EA5E9",
+    "&:hover": {
+      backgroundColor: "#0EA5E9",
+    },
   },
 
   circularLoader: {

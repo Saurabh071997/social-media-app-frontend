@@ -1,12 +1,21 @@
-import { Container, Button, TextField, Typography } from "@material-ui/core";
+import {
+  Container,
+  Button,
+  TextField,
+  Typography,
+  CircularProgress,
+} from "@material-ui/core";
 import { useState, useEffect } from "react";
-import { Link , useNavigate} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import useStyles from "./loginPageStyle";
 import { NavigationMain } from "./NavigationMain";
 import { useWindowSize } from "../utils/useWindowSize";
-import { loginUserWithCredentials, resetAuthStatus} from "../features/auth/authSlice";
-import { toggleToast} from '../features/toast/toastSlice'
+import {
+  loginUserWithCredentials,
+  resetAuthStatus,
+} from "../features/auth/authSlice";
+import { toggleToast } from "../features/toast/toastSlice";
 
 export const LoginPage = () => {
   const classes = useStyles();
@@ -16,9 +25,9 @@ export const LoginPage = () => {
     userpassword: null,
   });
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const {status, statusCode} = useSelector(state => state.auth)
+  const { status, statusCode } = useSelector((state) => state.auth);
 
   const loginHandler = () => {
     dispatch(
@@ -33,16 +42,15 @@ export const LoginPage = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  useEffect(()=>{
-    if(status === "tokenReceived"){
-      navigate('/')
+  useEffect(() => {
+    if (status === "tokenReceived") {
+      navigate("/");
     }
-    if(statusCode === 400){
-      dispatch(toggleToast({toggle:true, message:"Invalid Credentials"}))
+    if (statusCode === 400) {
+      dispatch(toggleToast({ toggle: true, message: "Invalid Credentials" }));
     }
-    dispatch(resetAuthStatus())
-  },[status, statusCode, dispatch,navigate])
-
+    dispatch(resetAuthStatus());
+  }, [status, statusCode, dispatch, navigate]);
 
   return (
     <>
@@ -82,10 +90,18 @@ export const LoginPage = () => {
           <Button
             variant="contained"
             color="primary"
-            className={classes.btnLogin}
+            className={
+              status === "loading"
+                ? `${classes.btnLogin} ${classes.btnDisabled}`
+                : classes.btnLogin
+            }
             onClick={loginHandler}
           >
-            Login
+            {status === "loading" ? (
+              <CircularProgress size="2rem" style={{ color: "white" }} />
+            ) : (
+              "Login"
+            )}
           </Button>
 
           <Typography align="center" className={classes.navText}>

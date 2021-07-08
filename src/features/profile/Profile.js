@@ -1,4 +1,11 @@
-import { AppBar, Toolbar, Button, Typography } from "@material-ui/core";
+import {
+  AppBar,
+  Toolbar,
+  Button,
+  Typography,
+  Container,
+  Grid,
+} from "@material-ui/core";
 import EventIcon from "@material-ui/icons/Event";
 import EmailIcon from "@material-ui/icons/Email";
 import RoomIcon from "@material-ui/icons/Room";
@@ -10,6 +17,7 @@ import { useWindowSize } from "../../utils/useWindowSize";
 import useAppStyle from "../../appStyle";
 import useStyle from "./profileStyle";
 import { NavigationMob } from "../../components/NavigationMob";
+import { Sidebar } from "../../components/Sidebar";
 import { ProfileCard } from "../../components/ProfileCard";
 import {
   getUserProfile,
@@ -81,14 +89,21 @@ export const ProfileLayout = () => {
     profileUser?.username,
   ]);
 
-  return profileStatus === "profile_pending" ? (
-    <div style={{ textAlign: "center", margin: "2rem auto" }}>
-      <CircularProgress className={classes.circularProgress} />
-    </div>
-  ) : (
+  return (
     <>
       <AppBar position="sticky">
-        <Toolbar className={classes.navLayout}>Profile</Toolbar>
+        <Toolbar className={classes.navLayout}>
+          <Typography align="left" className={classes.pageTitle}>
+            Profile
+          </Typography>
+
+          {profileStatus === "profile_pending" && (
+            <CircularProgress
+              size="2rem"
+              className={classes.circularProgress}
+            />
+          )}
+        </Toolbar>
       </AppBar>
 
       <div className={classes.componentBlock}>
@@ -307,12 +322,27 @@ export const ProfileLayout = () => {
           )}
         </div>
       </div>
+      <div style={{minHeight:"10vh"}}></div>
     </>
   );
 };
 
 export const ProfileDesktop = () => {
-  return <></>;
+  const classes = useAppStyle();
+  return (
+    <div className={classes.pageContainer}>
+      <Container maxWidth="lg">
+        <Grid container direction="row">
+          <Grid item className="flex-left">
+            <Sidebar />
+          </Grid>
+          <Grid item className={classes.flexRight}>
+            <ProfileLayout />
+          </Grid>
+        </Grid>
+      </Container>
+    </div>
+  );
 };
 
 export const ProfileMob = () => {
@@ -336,5 +366,5 @@ export const Profile = () => {
     authStatus === "user_available" && dispatch(getUserProfile(profileId));
   }, [dispatch, profileId, authStatus]);
 
-  return width <= 600 ? <ProfileMob /> : <ProfileDesktop />;
+  return width <= 700 ? <ProfileMob /> : <ProfileDesktop />;
 };

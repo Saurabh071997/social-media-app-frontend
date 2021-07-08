@@ -15,8 +15,8 @@ export default makeStyles(() => ({
   },
 
   searchIcon: {
-    height: "2.2rem",
-    width: "2.2rem",
+    height: "2.5rem",
+    width: "2.5rem",
     color: "#E2E8F0",
     cursor: "pointer",
     margin: "0rem 0.2rem",

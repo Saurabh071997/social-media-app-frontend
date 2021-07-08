@@ -49,7 +49,6 @@ export const SignupPage = () => {
   const dispatch = useDispatch();
   const { status, statusCode } = useSelector((state) => state.auth);
 
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -206,7 +205,7 @@ export const SignupPage = () => {
             onClick={signupHandler}
           >
             {status === "loading" ? (
-              <CircularProgress style={{ color: "white" }} />
+              <CircularProgress size="2rem" style={{ color: "white" }} />
             ) : (
               "Signup"
             )}

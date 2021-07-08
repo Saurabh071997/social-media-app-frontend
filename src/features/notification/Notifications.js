@@ -1,4 +1,11 @@
-import { AppBar, Toolbar, Typography, Button } from "@material-ui/core";
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Button,
+  Container,
+  Grid,
+} from "@material-ui/core";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import FlareIcon from "@material-ui/icons/Flare";
 import moment from "moment";
@@ -13,6 +20,7 @@ import {
   updateUserNotifications,
 } from "./notificationSlice";
 import { NavigationMob } from "../../components/NavigationMob";
+import { Sidebar } from "../../components/Sidebar";
 import default_img from "../../images/profile.jpg";
 
 export const NotificationLayout = () => {
@@ -29,9 +37,14 @@ export const NotificationLayout = () => {
     <>
       <AppBar position="sticky">
         <Toolbar className={classes.navLayout}>
-          <Typography align="left" className={classes.pageTitle}>
+          <Typography
+            align="left"
+            className={classes.pageTitle}
+            style={{ flexGrow: 1 }}
+          >
             Notifications
           </Typography>
+
           {status === "pending" && (
             <CircularProgress size="2rem" className={classes.pageProgress} />
           )}
@@ -139,13 +152,27 @@ export const NotificationLayout = () => {
         })}
       </div>
 
-      <div style={{ minHeight: "30vh" }}></div>
+      <div style={{ minHeight: "10vh" }}></div>
     </>
   );
 };
 
 export const NotificationsDesktop = () => {
-  return <></>;
+  const classes = useAppStyle();
+  return (
+    <div className={classes.pageContainer}>
+      <Container maxWidth="lg">
+        <Grid container direction="row">
+          <Grid item className="flex-left">
+            <Sidebar />
+          </Grid>
+          <Grid item className={classes.flexRight}>
+            <NotificationLayout />
+          </Grid>
+        </Grid>
+      </Container>
+    </div>
+  );
 };
 
 export const NotificationsMob = () => {
@@ -166,5 +193,5 @@ export const Notifications = () => {
     authStatus === "user_available" && dispatch(getUserNotifications());
   }, [authStatus, dispatch]);
 
-  return width <= 600 ? <NotificationsMob /> : <NotificationsDesktop />;
+  return width <= 700 ? <NotificationsMob /> : <NotificationsDesktop />;
 };

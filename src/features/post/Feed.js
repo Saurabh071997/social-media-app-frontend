@@ -1,4 +1,4 @@
-import { AppBar, Toolbar } from "@material-ui/core";
+import { AppBar, Toolbar, Typography } from "@material-ui/core";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
@@ -17,26 +17,30 @@ export const Feed = () => {
       dispatch(getAllPosts());
   }, [authStatus, postStatus, dispatch]);
 
-  return postStatus === "pending" ? (
-    <div style={{ textAlign: "center", marginTop: "3rem" }}>
-      <CircularProgress className={classes.feedProgress} />
-    </div>
-  ) : (
+  return (
     <>
       <AppBar position="sticky">
-        <Toolbar className={classes.navLayout}>Feed</Toolbar>
+        <Toolbar className={classes.navLayout}>
+          <Typography align="left" className={classes.pageTitle}>
+            Feed
+          </Typography>
+
+          {postStatus === "pending" && (
+            <CircularProgress size="2rem" className={classes.feedProgress} />
+          )}
+        </Toolbar>
       </AppBar>
 
       <div className={classes.flexColRev}>
         {posts?.map((postItem) => {
           return (
             <div key={postItem?._id}>
-              <PostCard post={postItem} type="FEED_POST"/>
+              <PostCard post={postItem} type="FEED_POST" />
             </div>
           );
         })}
       </div>
-      <div style={{ minHeight: "30vh" }}></div>
+      <div style={{ minHeight: "5vh" }}></div>
     </>
   );
 };

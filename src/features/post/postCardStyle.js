@@ -50,7 +50,7 @@ export default makeStyles(() => ({
   },
 
   postCardContent: {
-    fontSize: "1.35rem",
+    fontSize: "1.25rem",
     padding: "0rem 0.5rem",
     color: "#F1F5F9",
   },

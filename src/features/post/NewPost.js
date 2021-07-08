@@ -1,4 +1,11 @@
-import { AppBar, Toolbar, Button, Typography } from "@material-ui/core";
+import {
+  AppBar,
+  Toolbar,
+  Button,
+  Typography,
+  Container,
+  Grid,
+} from "@material-ui/core";
 import PhotoLibraryIcon from "@material-ui/icons/PhotoLibrary";
 import MovieIcon from "@material-ui/icons/Movie";
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -8,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 import useAppStyle from "../../appStyle";
 import useStyle from "./newPostStyle";
 import { NavigationMob } from "../../components/NavigationMob";
+import { Sidebar } from "../../components/Sidebar";
 import { useWindowSize } from "../../utils/useWindowSize";
 import { toggleToast } from "../toast/toastSlice";
 import {
@@ -158,7 +166,6 @@ export const NewPostLayout = () => {
 
         <div className="post-media-container">
           {postState?.postMedia?.map((mediaItem) => {
-            
             return (
               <div key={mediaItem?.mediaUrl}>
                 {mediaItem?.mediaType === "IMAGE" ? (
@@ -244,7 +251,21 @@ export const NewPostLayout = () => {
 };
 
 export const NewPostDesktop = () => {
-  return <></>;
+  const classes = useAppStyle();
+  return (
+    <div className={classes.pageContainer}>
+      <Container maxWidth="lg">
+        <Grid container direction="row">
+          <Grid item className="flex-left">
+            <Sidebar />
+          </Grid>
+          <Grid item className={classes.flexRight}>
+            <NewPostLayout />
+          </Grid>
+        </Grid>
+      </Container>
+    </div>
+  );
 };
 
 export const NewPostMob = () => {
@@ -259,5 +280,5 @@ export const NewPostMob = () => {
 
 export const NewPost = () => {
   const [, width] = useWindowSize();
-  return width <= 600 ? <NewPostMob /> : <NewPostDesktop />;
+  return width <= 700 ? <NewPostMob /> : <NewPostDesktop />;
 };
