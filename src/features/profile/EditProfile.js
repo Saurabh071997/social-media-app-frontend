@@ -57,7 +57,7 @@ export const EditProfileLayout = () => {
       const response = await uploadProfileImg(file);
       setPageState((pageState) => ({
         ...pageState,
-        profileImg: response?.url,
+        profileImg: response?.secure_url,
       }));
     } catch (err) {
       dispatch(

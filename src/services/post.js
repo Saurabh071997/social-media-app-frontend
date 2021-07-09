@@ -41,7 +41,7 @@ export const uploadImages = async (files) => {
       body: formData,
     });
     response = await response.json();
-    imageList.push({ mediaType: "IMAGE", mediaUrl: response.url });
+    imageList.push({ mediaType: "IMAGE", mediaUrl: response.secure_url });
  
   }
 
@@ -59,7 +59,7 @@ export const uploadVideos = async (files) => {
       body: formData,
     });
     response = await response.json();
-    videoList.push({ mediaType: "VIDEO", mediaUrl: response.url });
+    videoList.push({ mediaType: "VIDEO", mediaUrl: response.secure_url });
   }
   return videoList;
 };
