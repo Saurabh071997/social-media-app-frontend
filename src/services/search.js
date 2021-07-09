@@ -8,3 +8,8 @@ export const getUsersByName = async (searchstring) => {
   );
   return response;
 };
+
+export const getSuggestions = async () => {
+  const response = await axios.get(`${API_URL}/user/suggestion`);
+  return response;
+};

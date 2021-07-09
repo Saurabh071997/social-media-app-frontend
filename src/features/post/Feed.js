@@ -10,12 +10,10 @@ export const Feed = () => {
   const classes = useStyle();
   const dispatch = useDispatch();
   const { status: postStatus, posts } = useSelector((state) => state.post);
-  const { status: authStatus } = useSelector((state) => state.auth);
+  const { isUserAvailable } = useSelector((state) => state.auth);
   useEffect(() => {
-    authStatus === "user_available" &&
-      postStatus === "idle" &&
-      dispatch(getAllPosts());
-  }, [authStatus, postStatus, dispatch]);
+    isUserAvailable && postStatus === "idle" && dispatch(getAllPosts());
+  }, [isUserAvailable, postStatus, dispatch]);
 
   return (
     <>

@@ -167,7 +167,7 @@ export const PostCard = ({ post, type }) => {
             </Typography>
             <Typography
               align="left"
-              variant="subtitle2"
+              variant="subtitle1"
               className={classes.postCardUserInfoSub}
             >
               @{post?.__userId?.username}
@@ -176,9 +176,13 @@ export const PostCard = ({ post, type }) => {
           <Typography
             variant="subtitle2"
             className={classes.postCardUserInfoSub}
-            style={{ alignSelf: "flex-end" }}
+            style={{
+              alignSelf: "flex-start",
+              position: "relative",
+              top: "0.5em",
+            }}
           >
-            {`: ` + postTime}
+            {postTime}
           </Typography>
         </div>
         <div className={classes.flexCol}>

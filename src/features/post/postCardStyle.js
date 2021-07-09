@@ -27,8 +27,8 @@ export default makeStyles(() => ({
   },
 
   postCardImg: {
-    height: "2.5rem",
-    width: "2.5rem",
+    height: "2.75rem",
+    width: "2.75rem",
     marginRight: "0.5rem",
     borderRadius: "50%",
     alignSelf: "center",
@@ -63,7 +63,7 @@ export default makeStyles(() => ({
 
   postCardBtnDiv: {
     display: "flex",
-    border: "0.55px solid #64748B",
+    borderTop: "0.5px solid #64748B",
     padding: "0.35rem",
   },
 

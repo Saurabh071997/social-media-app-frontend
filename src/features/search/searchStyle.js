@@ -59,4 +59,12 @@ export default makeStyles(() => ({
       color:"#94A3B8"
   },
 
+  suggestionDiv:{
+    display:"flex",
+    flexDirection:"column",
+    borderTop:"0.5px solid #0EA5E9",
+    margin:"2rem 0rem",
+    padding:"1rem"
+  }
+
 }));

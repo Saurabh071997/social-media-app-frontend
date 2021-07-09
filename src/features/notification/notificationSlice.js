@@ -51,7 +51,6 @@ const notificationSlice = createSlice({
 
     [updateUserNotifications.fulfilled]: (state, action) => {
       state.status = "update_fulfilled";
-      console.log(action.payload)
       let notificationlist = action.payload;
       for (let i = 0; i < notificationlist?.length; i++) {
         const index = state.notifications.findIndex(

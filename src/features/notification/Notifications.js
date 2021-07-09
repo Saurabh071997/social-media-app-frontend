@@ -76,6 +76,8 @@ export const NotificationLayout = () => {
         {notifications?.map((notificationItem) => {
           const type = ["LIKE", "COMMENT", "NEW_POST"];
           const time = moment(notificationItem?.createdAt).fromNow();
+          if (notificationItem?.__target === notificationItem?.__source?._id)
+            return <div>{null}</div>;
 
           return (
             <div key={notificationItem?._id} className={classes.notifyDiv}>
@@ -188,10 +190,10 @@ export const NotificationsMob = () => {
 export const Notifications = () => {
   const [, width] = useWindowSize();
   const dispatch = useDispatch();
-  const { status: authStatus } = useSelector((state) => state.auth);
+  const { isUserAvailable } = useSelector((state) => state.auth);
   useEffect(() => {
-    authStatus === "user_available" && dispatch(getUserNotifications());
-  }, [authStatus, dispatch]);
+    isUserAvailable && dispatch(getUserNotifications());
+  }, [isUserAvailable, dispatch]);
 
   return width <= 700 ? <NotificationsMob /> : <NotificationsDesktop />;
 };

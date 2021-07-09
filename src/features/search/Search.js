@@ -14,14 +14,17 @@ import useStyle from "./searchStyle";
 import { NavigationMob } from "../../components/NavigationMob";
 import { Sidebar } from "../../components/Sidebar";
 import { useWindowSize } from "../../utils/useWindowSize";
-import { searchUsers, resetSearch } from "./searchSlice";
+import { searchUsers, resetSearch, getFollowSuggestions } from "./searchSlice";
 import { ProfileCard } from "../../components/ProfileCard";
 
 export const SearchLayout = () => {
   const classes = useStyle();
   const [searchValue, setSearchValue] = useState(null);
   const dispatch = useDispatch();
-  const { status, searchedUsers } = useSelector((state) => state.search);
+  const { status, searchedUsers, followSuggestions } = useSelector(
+    (state) => state.search
+  );
+
   return (
     <>
       <AppBar position="sticky">
@@ -82,6 +85,24 @@ export const SearchLayout = () => {
           </div>
         )}
       </div>
+
+      {followSuggestions?.length > 0 && (
+        <div className={classes.suggestionDiv}>
+          <Typography variant="h5" className={classes.successText} gutterBottom>
+            Follow Suggestions
+          </Typography>
+
+          <div className={classes.flexCol}>
+            {followSuggestions?.map((userItem) => {
+              return (
+                <div key={userItem?._id}>
+                  <ProfileCard profileItem={userItem} />
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
     </>
   );
 };
@@ -120,6 +141,12 @@ export const Search = () => {
     dispatch(resetSearch());
     // eslint-disable-next-line
   }, []);
+
+  const { isUserAvailable } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    isUserAvailable && dispatch(getFollowSuggestions());
+  }, [isUserAvailable, dispatch]);
   const [, width] = useWindowSize();
   return width <= 700 ? <SearchMob /> : <SearchDesktop />;
 };

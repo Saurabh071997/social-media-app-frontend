@@ -113,7 +113,7 @@ const postSlice = createSlice({
 
     [addNewPost.fulfilled]: (state, action) => {
       state.status = "post_added";
-      console.log(action.payload.data);
+      // console.log(action.payload.data);
       const newPostEntry = {
         ...action.payload.data,
         __userId: {
@@ -123,7 +123,7 @@ const postSlice = createSlice({
           profileImg: action.payload?.newPostObj?.currentImg,
         },
       };
-      console.log("new post : ", newPostEntry);
+      // console.log("new post : ", newPostEntry);
       state.posts.push(newPostEntry);
     },
 

@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getUsersByName } from "../../services/search";
+import { getUsersByName, getSuggestions } from "../../services/search";
 
 export const searchUsers = createAsyncThunk(
   "search/searchUsers",
@@ -16,40 +16,64 @@ export const searchUsers = createAsyncThunk(
   }
 );
 
+export const getFollowSuggestions = createAsyncThunk(
+  "search/getFollowSuggestions",
+  async () => {
+    const response = await getSuggestions();
+    return response?.data;
+  }
+);
+
 const searchSlice = createSlice({
   name: "search",
   initialState: {
     status: "idle",
     error: null,
     searchedUsers: [],
+    followSuggestions: [],
   },
 
   reducers: {
-    resetSearch: (state)=> {
-      state.status = "idle"
-      state.error = null
-      state.searchedUsers = []
-    }
+    resetSearch: (state) => {
+      state.status = "idle";
+      state.error = null;
+      state.searchedUsers = [];
+      state.followSuggestions = [];
+    },
   },
 
   extraReducers: {
-      [searchUsers.pending]: (state) => {
-          state.status = "pending"
-      },
+    [searchUsers.pending]: (state) => {
+      state.status = "pending";
+    },
 
-      [searchUsers.fulfilled]: (state, action) => {
-          // console.log(action.payload.data)
-          state.status = "fulfilled"
-          state.searchedUsers = action.payload.data
-      },
+    [searchUsers.fulfilled]: (state, action) => {
+      // console.log(action.payload.data)
+      state.status = "fulfilled";
+      state.searchedUsers = action.payload.data;
+    },
 
-      [searchUsers.rejected]: (state, action) =>{
-          state.status = "error"
-          state.error = action.payload.errorMessage
-      }
+    [searchUsers.rejected]: (state, action) => {
+      state.status = "error";
+      state.error = action.payload.errorMessage;
+    },
+
+    [getFollowSuggestions.pending]: (state) => {
+      state.status = "pending";
+    },
+
+    [getFollowSuggestions.fulfilled]: (state, action) => {
+      state.status = "follow_fulfilled";
+      state.followSuggestions = action.payload.data;
+    },
+
+    [getFollowSuggestions.rejected]: (state) => {
+      state.status = "error";
+      state.error = "something went wrong";
+    },
   },
 });
 
-export const {resetSearch} = searchSlice.actions
+export const { resetSearch } = searchSlice.actions;
 
-export default searchSlice.reducer
+export default searchSlice.reducer;

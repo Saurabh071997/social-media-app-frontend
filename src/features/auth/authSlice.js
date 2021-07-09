@@ -52,6 +52,7 @@ const authSlice = createSlice({
       : "idle",
     statusCode: null,
     currentUser: null,
+    isUserAvailable: false,
     userFollowers: null,
     userFollowing: null,
     accessToken: JSON.parse(localStorage?.getItem("accessToken")) || null,
@@ -67,6 +68,7 @@ const authSlice = createSlice({
       state.userFollowing = null;
       state.userFollowers = null;
       state.error = null;
+      state.isUserAvailable = false;
     },
 
     resetAuthStatus: (state) => {
@@ -148,6 +150,7 @@ const authSlice = createSlice({
 
     [getUserDetails.fulfilled]: (state, action) => {
       state.status = "user_available";
+      state.isUserAvailable = true;
       state.currentUser = action.payload.data?.user;
       state.userFollowing = action.payload.data?.followResponse?.following;
       state.userFollowers = action.payload.data?.followResponse?.followers;

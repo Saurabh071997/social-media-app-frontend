@@ -322,7 +322,7 @@ export const ProfileLayout = () => {
           )}
         </div>
       </div>
-      <div style={{minHeight:"10vh"}}></div>
+      <div style={{ minHeight: "10vh" }}></div>
     </>
   );
 };
@@ -360,11 +360,11 @@ export const Profile = () => {
   const { profileId } = useParams();
   const dispatch = useDispatch();
 
-  const { status: authStatus } = useSelector((state) => state.auth);
+  const { isUserAvailable } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    authStatus === "user_available" && dispatch(getUserProfile(profileId));
-  }, [dispatch, profileId, authStatus]);
+    isUserAvailable && dispatch(getUserProfile(profileId));
+  }, [dispatch, profileId, isUserAvailable]);
 
   return width <= 700 ? <ProfileMob /> : <ProfileDesktop />;
 };
