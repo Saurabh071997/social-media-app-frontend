@@ -68,6 +68,7 @@ export const Sidebar = () => {
         container
         direction="column"
         justify="space-between"
+        wrap="nowrap"
         style={{ height: "100%", paddingBottom: "1rem" }}
       >
         <Grid item>
@@ -159,7 +160,7 @@ export const Sidebar = () => {
         <Grid item>
           {modal && <LogoutModal />}
           <div
-            style={{ display: "inline-block" , cursor:"pointer"}}
+            style={{ display: "inline-block", cursor: "pointer" }}
             onClick={() => {
               setModal((modal) => !modal);
             }}

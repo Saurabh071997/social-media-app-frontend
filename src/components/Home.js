@@ -21,7 +21,7 @@ export const DesktopHome = () => {
   return (
     <div className={classes.pageContainer}>
       <Container maxWidth="lg" >
-        <Grid container direction="row" >
+        <Grid container direction="row">
           <Grid item className="flex-left">
             <Sidebar/>
           </Grid>
