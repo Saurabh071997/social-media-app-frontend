@@ -60,7 +60,7 @@ export default makeStyles((theme) => ({
   },
 
   msgMain:{
-    fontSize:"4rem",
+    fontSize:"3.5rem",
     // color:'#2563EB',
     color:"#475569",
     margin: '1rem',
@@ -71,7 +71,7 @@ export default makeStyles((theme) => ({
   },
 
   msgSub: {
-    fontSize:'2.5rem',
+    fontSize:'2.35rem',
     margin:'0.75rem 1rem',
     fontWeight:"bold",
     // color:"#2563EB",

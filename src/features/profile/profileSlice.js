@@ -122,7 +122,16 @@ const profileSlice = createSlice({
     status: "idle",
     error: null,
   },
-  reducers: {},
+  reducers: {
+    resetProfile: (state) => {
+      state.status = "idle";
+      state.error = null;
+      state.profileUser = null;
+      state.profileUserFollowers = null;
+      state.profileUserFollowing = null;
+      state.profileUserPosts = [];
+    },
+  },
 
   extraReducers: {
     [getUserProfile.pending]: (state) => {
@@ -236,8 +245,8 @@ const profileSlice = createSlice({
       state.status = "comment_pending";
     },
 
-    [commentUserPost.fulfilled]: (state, action) =>{
-      state.status = "comment_fulfilled"
+    [commentUserPost.fulfilled]: (state, action) => {
+      state.status = "comment_fulfilled";
       const postIndex = state.profileUserPosts?.findIndex(
         (item) => item?._id === action.payload.data?._id
       );
@@ -245,10 +254,12 @@ const profileSlice = createSlice({
     },
 
     [commentUserPost.rejected]: (state) => {
-      state.status = "error"
-      state.error = "Failed to add comment"
-    }
+      state.status = "error";
+      state.error = "Failed to add comment";
+    },
   },
 });
+
+export const { resetProfile } = profileSlice.actions;
 
 export default profileSlice.reducer;

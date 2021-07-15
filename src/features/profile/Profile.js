@@ -23,6 +23,7 @@ import {
   getUserProfile,
   handleUserFollow,
   handleUserUnFollow,
+  resetProfile,
 } from "./profileSlice";
 import { userFollowed, userUnFollowed } from "../auth/authSlice";
 import default_img from "../../images/profile.jpg";
@@ -88,6 +89,13 @@ export const ProfileLayout = () => {
     profileUser?.profileImg,
     profileUser?.username,
   ]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetProfile())
+    };
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <>
