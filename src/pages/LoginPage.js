@@ -44,12 +44,15 @@ export const LoginPage = () => {
 
   useEffect(() => {
     if (status === "tokenReceived") {
+      dispatch(resetAuthStatus());
       navigate("/");
     }
     if (statusCode === 400) {
       dispatch(toggleToast({ toggle: true, message: "Invalid Credentials" }));
+      dispatch(resetAuthStatus());
     }
-    dispatch(resetAuthStatus());
+
+    status === "error" && dispatch(resetAuthStatus());
   }, [status, statusCode, dispatch, navigate]);
 
   return (

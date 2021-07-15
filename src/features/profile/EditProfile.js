@@ -19,6 +19,7 @@ import { NavigationMob } from "../../components/NavigationMob";
 import { Sidebar } from "../../components/Sidebar";
 import default_img from "../../images/profile.jpg";
 import { updateUserProfile } from "./profileSlice";
+import { getUserDetails } from "../auth/authSlice";
 import { toggleToast } from "../toast/toastSlice";
 import { uploadProfileImg } from "../../services/profile";
 
@@ -42,6 +43,7 @@ export const EditProfileLayout = () => {
   useEffect(() => {
     if (profileStatus === "updated") {
       dispatch(toggleToast({ toggle: true, message: "Profile Updated !!" }));
+      dispatch(getUserDetails())
       navigate(`/profile/view/${currentUser?._id}`);
     }
     if (profileStatus === "error_409") {

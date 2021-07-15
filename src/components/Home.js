@@ -39,21 +39,4 @@ export const Home = () => {
   return width <= 700 ? <MobileHome /> : <DesktopHome />;
 };
 
-// export const DesktopHome = () => {
-//   const classes = useAppStyle();
-//   return (
-//     <div className={classes.pageContainer}>
-//       <Container maxWidth="lg" >
-//         <Grid container direction="row" >
-//           <Grid item className="flex-left">
-//             <Sidebar/>
-//           </Grid>
-//           <Grid item className={classes.flexRight}>
-//             content part
-//           </Grid>
-//         </Grid>
-//       </Container>
-//     </div>
-//   );
-// };
 

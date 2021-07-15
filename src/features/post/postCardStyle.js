@@ -56,8 +56,13 @@ export default makeStyles(() => ({
   },
 
   postCardMediaItem: {
-    height: "240px",
-    width: "320px",
+    width: "270px",
+    height: "210px",
+    margin: "0rem 0.35rem",
+  },
+
+  postCardMediaItemVid: {
+    height: "210px",
     margin: "0rem 0.35rem",
   },
 
@@ -102,9 +107,9 @@ export default makeStyles(() => ({
     padding: "0.25rem",
     fontSize: "1.15rem",
     color: "#F1F5F9",
-    background:"transparent",
-    border:"none",
-    outline:"none"
+    background: "transparent",
+    border: "none",
+    outline: "none",
   },
 
   postCommentBtn: {
@@ -129,18 +134,17 @@ export default makeStyles(() => ({
     height: "1.5rem",
     width: "1.5rem",
     borderRadius: "50%",
-    marginRight:"0.25rem"
+    marginRight: "0.25rem",
   },
 
-  postCommentDivTxt:{
-    color:"#F1F5F9",
-    padding:"0.15rem 1rem",
-    marginLeft:"0.5rem"
+  postCommentDivTxt: {
+    color: "#F1F5F9",
+    padding: "0.15rem 1rem",
+    marginLeft: "0.5rem",
   },
 
   commentProgress: {
     color: "#F1F5F9",
-    marginLeft:"0.25rem"
+    marginLeft: "0.25rem",
   },
-
 }));

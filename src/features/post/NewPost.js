@@ -178,7 +178,7 @@ export const NewPostLayout = () => {
                   <video
                     controls="controls"
                     src={mediaItem?.mediaUrl}
-                    className={classes.postMediaItem}
+                    className={classes.postMediaItemVid}
                   />
                 )}
               </div>

@@ -59,13 +59,16 @@ export const SignupPage = () => {
       dispatch(
         toggleToast({ toggle: true, message: "account created successfully" })
       );
+      dispatch(resetAuthStatus());
     }
     if (status === "error" && statusCode === 409) {
       dispatch(toggleToast({ toggle: true, message: "user already exist" }));
+      dispatch(resetAuthStatus());
     }
-    dispatch(resetAuthStatus());
-    // eslint-disable-next-line
-  }, [status, statusCode]);
+
+    status === "error" && dispatch(resetAuthStatus());
+
+  }, [status, statusCode, dispatch, navigate]);
 
   const validateSignUp = () => {
     let regex =

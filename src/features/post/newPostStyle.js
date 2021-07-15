@@ -19,7 +19,7 @@ export default makeStyles(() => ({
     padding: "0.5rem",
     margin: "0.25rem 0rem",
     display: "flex",
-    flexDirection:"row-reverse",
+    flexDirection: "row-reverse",
     justifyContent: "space-between",
   },
 
@@ -32,9 +32,8 @@ export default makeStyles(() => ({
   },
 
   btnPostDisabled: {
-    pointerEvents:"none"
+    pointerEvents: "none",
   },
-
 
   postTxtArea: {
     minHeight: "100px",
@@ -49,8 +48,13 @@ export default makeStyles(() => ({
   },
 
   postMediaItem: {
-    height: "240px",
-    width: "320px",
+    width: "270px",
+    height: "210px",
+    margin: "0rem 0.35rem",
+  },
+
+  postMediaItemVid: {
+    height: "210px",
     margin: "0rem 0.35rem",
   },
 
@@ -76,8 +80,7 @@ export default makeStyles(() => ({
     color: "#F1F5F9",
   },
 
-  postProgress:{
-      color:"#3B82F6"
-  }
-
+  postProgress: {
+    color: "#3B82F6",
+  },
 }));

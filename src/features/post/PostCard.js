@@ -160,14 +160,14 @@ export const PostCard = ({ post, type }) => {
           <div className={classes.postCardUser}>
             <Typography
               align="left"
-              variant="h6"
+              variant="subtitle1"
               className={classes.postCardUserInfoMain}
             >
               {post?.__userId?.name}
             </Typography>
             <Typography
               align="left"
-              variant="subtitle1"
+              variant="body2"
               className={classes.postCardUserInfoSub}
             >
               @{post?.__userId?.username}
@@ -193,7 +193,7 @@ export const PostCard = ({ post, type }) => {
           <div className="post-media-container">
             {post?.media?.map((mediaItem) => {
               return (
-                <div key={mediaItem?._id}>
+                <div key={mediaItem?._id} >
                   {mediaItem?.mediaType === "IMAGE" ? (
                     <img
                       src={mediaItem?.mediaUrl}
@@ -204,7 +204,7 @@ export const PostCard = ({ post, type }) => {
                     <video
                       src={mediaItem?.mediaUrl}
                       controls="controls"
-                      className={classes.postCardMediaItem}
+                      className={classes.postCardMediaItemVid}
                     />
                   )}
                 </div>
