@@ -43,7 +43,7 @@ export const EditProfileLayout = () => {
   useEffect(() => {
     if (profileStatus === "updated") {
       dispatch(toggleToast({ toggle: true, message: "Profile Updated !!" }));
-      dispatch(getUserDetails())
+      dispatch(getUserDetails());
       navigate(`/profile/view/${currentUser?._id}`);
     }
     if (profileStatus === "error_409") {
@@ -317,7 +317,7 @@ export const EditProfileDesktop = () => {
   const classes = useAppStyle();
   return (
     <div className={classes.pageContainer}>
-      <Container maxWidth="lg">
+      <Container maxWidth="md" style={{ padding: "0rem" }}>
         <Grid container direction="row">
           <Grid item className="flex-left">
             <Sidebar />

@@ -16,6 +16,7 @@ import {
   resetAuthStatus,
 } from "../features/auth/authSlice";
 import { toggleToast } from "../features/toast/toastSlice";
+import { ErrorMessage } from "./SignupPage";
 
 export const LoginPage = () => {
   const classes = useStyles();
@@ -24,16 +25,35 @@ export const LoginPage = () => {
     usermail: null,
     userpassword: null,
   });
+  const [error, setError] = useState(false);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { status, statusCode } = useSelector((state) => state.auth);
 
   const loginHandler = () => {
+    if (
+      !loginState?.usermail ||
+      loginState?.usermail?.length < 1 ||
+      !loginState?.userpassword ||
+      loginState?.userpassword?.length < 1
+    ) {
+      setError(true);
+    } else {
+      dispatch(
+        loginUserWithCredentials({
+          usermail: loginState?.usermail,
+          userpassword: loginState?.userpassword,
+        })
+      );
+    }
+  };
+
+  const guestLogin = () => {
     dispatch(
       loginUserWithCredentials({
-        usermail: loginState?.usermail,
-        userpassword: loginState?.userpassword,
+        usermail: "guest@mail.com",
+        userpassword: "123456789",
       })
     );
   };
@@ -73,6 +93,7 @@ export const LoginPage = () => {
                 ...loginState,
                 usermail: e.target.value.trim(),
               }));
+              setError(false);
             }}
           />
 
@@ -87,8 +108,12 @@ export const LoginPage = () => {
                 ...loginState,
                 userpassword: e.target.value.trim(),
               }));
+              setError(false);
             }}
           />
+          {error && (
+            <ErrorMessage message="Please fill the fields with appropriate values" />
+          )}
 
           <Button
             variant="contained"
@@ -104,6 +129,34 @@ export const LoginPage = () => {
               <CircularProgress size="2rem" style={{ color: "white" }} />
             ) : (
               "Login"
+            )}
+          </Button>
+
+          <Typography
+            align="center"
+            style={{
+              fontSize: "1.15rem",
+              color: "#0C4A6E",
+              fontWeight: "bold",
+            }}
+          >
+            Or
+          </Typography>
+
+          <Button
+            variant="contained"
+            color="primary"
+            className={
+              status === "loading"
+                ? `${classes.btnLogin} ${classes.btnDisabled}`
+                : classes.btnLogin
+            }
+            onClick={guestLogin}
+          >
+            {status === "loading" ? (
+              <CircularProgress size="2rem" style={{ color: "white" }} />
+            ) : (
+              "Login as Guest"
             )}
           </Button>
 

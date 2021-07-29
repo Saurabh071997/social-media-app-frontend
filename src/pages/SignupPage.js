@@ -54,13 +54,11 @@ export const SignupPage = () => {
   }, []);
 
   useEffect(() => {
-    if (status === "signup_success" && statusCode === 201) {
-      navigate("/login");
-      dispatch(
-        toggleToast({ toggle: true, message: "account created successfully" })
-      );
+    if (status === "tokenReceived") {
       dispatch(resetAuthStatus());
+      navigate("/");
     }
+
     if (status === "error" && statusCode === 409) {
       dispatch(toggleToast({ toggle: true, message: "user already exist" }));
       dispatch(resetAuthStatus());

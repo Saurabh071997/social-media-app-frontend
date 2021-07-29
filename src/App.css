@@ -54,7 +54,7 @@ body {
 
 .flex-left {
   /* background-color:green; */
-  width: 25%;
+  width: 30%;
   flex-shrink: 1;
   height: 90vh;
   position: sticky;

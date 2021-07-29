@@ -22,6 +22,7 @@ export default makeStyles(() => ({
 
   profileCardName: {
     color: "#F1F5F9",
+    marginBottom:"0rem"
   },
 
   profileCardUsername: {

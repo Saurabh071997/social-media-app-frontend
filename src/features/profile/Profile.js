@@ -92,7 +92,7 @@ export const ProfileLayout = () => {
 
   useEffect(() => {
     return () => {
-      dispatch(resetProfile())
+      dispatch(resetProfile());
     };
     // eslint-disable-next-line
   }, []);
@@ -127,9 +127,9 @@ export const ProfileLayout = () => {
             <Typography className={classes.profileName}>
               {profileUser?.name}
             </Typography>
-            <Typography
-              className={classes.profileUserName}
-            >{`@${profileUser?.username}`}</Typography>
+            <Typography className={classes.profileUserName}>
+              @{profileUser?.username}
+            </Typography>
           </div>
         </div>
 
@@ -160,9 +160,11 @@ export const ProfileLayout = () => {
           <div className={classes.profileExtraDiv}>
             <EventIcon className={classes.profileExtraIcon} />
             <Typography className={classes.profileExtraTxt}>Joined:</Typography>
-            <Typography className={classes.profileExtraInfo}>
-              {`${" "}${profileUser?.createdAt?.split("T")[0]}`}
-            </Typography>
+            {profileUser?.createdAt && (
+              <Typography className={classes.profileExtraInfo}>
+                {`${" "}${profileUser?.createdAt?.split("T")[0]}`}
+              </Typography>
+            )}
           </div>
 
           {profileUser?.dateofbirth && (
@@ -178,9 +180,11 @@ export const ProfileLayout = () => {
           <div className={classes.profileExtraDiv}>
             <EmailIcon className={classes.profileExtraIcon} />
             <Typography className={classes.profileExtraTxt}>Email: </Typography>
-            <Typography className={classes.profileExtraInfo}>
-              {`${" "}${profileUser?.email}`}
-            </Typography>
+            {profileUser?.email && (
+              <Typography className={classes.profileExtraInfo}>
+                {`${" "}${profileUser?.email}`}
+              </Typography>
+            )}
           </div>
 
           {profileUser?.location && (
@@ -293,6 +297,15 @@ export const ProfileLayout = () => {
         <div className={classes.profileSectionContent}>
           {pageState === "following" && (
             <div className={classes.flexCol}>
+              {profileUserFollowing?.length < 1 && (
+                <Typography
+                  align="center"
+                  variant="h5"
+                  style={{ color: "#94A3B8" }}
+                >
+                  Not Following Anyone !!{" "}
+                </Typography>
+              )}
               {profileUserFollowing?.map((followItem) => {
                 const userObj = followItem?.__follows;
                 return (
@@ -306,6 +319,15 @@ export const ProfileLayout = () => {
 
           {pageState === "followers" && (
             <div className={classes.flexCol}>
+              {profileUserFollowers?.length < 1 && (
+                <Typography
+                  align="center"
+                  variant="h5"
+                  style={{ color: "#94A3B8" }}
+                >
+                  No Followers Yet !!{" "}
+                </Typography>
+              )}
               {profileUserFollowers?.map((followItem) => {
                 const userObj = followItem?.__user;
                 return (
@@ -319,6 +341,15 @@ export const ProfileLayout = () => {
 
           {pageState === "posts" && (
             <div style={{ display: "flex", flexDirection: "column-reverse" }}>
+              {profileUserPosts?.length < 1 && (
+                <Typography
+                  align="center"
+                  variant="h5"
+                  style={{ color: "#94A3B8" }}
+                >
+                  No Posts Yet !!{" "}
+                </Typography>
+              )}
               {profileUserPosts?.map((postItem) => {
                 return (
                   <div key={postItem?._id}>
@@ -339,7 +370,7 @@ export const ProfileDesktop = () => {
   const classes = useAppStyle();
   return (
     <div className={classes.pageContainer}>
-      <Container maxWidth="lg">
+      <Container maxWidth="md" style={{ padding: "0rem" }}>
         <Grid container direction="row">
           <Grid item className="flex-left">
             <Sidebar />

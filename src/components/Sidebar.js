@@ -36,7 +36,7 @@ export const Sidebar = () => {
         <Button
           variant="contained"
           color="primary"
-          size="large"
+          size="medium"
           startIcon={
             <ExitToAppIcon
               className={classes.sideIcon}
@@ -86,7 +86,7 @@ export const Sidebar = () => {
               <Button
                 variant="contained"
                 color="primary"
-                size="large"
+                size="medium"
                 startIcon={<HomeIcon className={classes.sideIcon} />}
                 className={classes.sidebarNavBtn}
                 onClick={() => navigate("/")}
@@ -101,7 +101,7 @@ export const Sidebar = () => {
               <Button
                 variant="contained"
                 color="primary"
-                size="large"
+                size="medium"
                 startIcon={<NotificationsIcon className={classes.sideIcon} />}
                 className={classes.sidebarNavBtn}
                 onClick={() => navigate("/notifications")}
@@ -116,7 +116,7 @@ export const Sidebar = () => {
               <Button
                 variant="contained"
                 color="primary"
-                size="large"
+                size="medium"
                 startIcon={<SearchIcon className={classes.sideIcon} />}
                 className={classes.sidebarNavBtn}
                 onClick={() => navigate("/search")}
@@ -131,7 +131,7 @@ export const Sidebar = () => {
               <Button
                 variant="contained"
                 color="primary"
-                size="large"
+                size="medium"
                 startIcon={<PersonIcon className={classes.sideIcon} />}
                 className={classes.sidebarNavBtn}
                 onClick={() => navigate(`/profile/view/${currentUser?._id}`)}
@@ -146,7 +146,7 @@ export const Sidebar = () => {
               <Button
                 variant="contained"
                 color="primary"
-                size="large"
+                size="medium"
                 startIcon={<CreateIcon />}
                 className={classes.btnCreate}
                 onClick={() => navigate("/post/new")}

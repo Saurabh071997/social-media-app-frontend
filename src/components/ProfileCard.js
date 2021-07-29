@@ -17,10 +17,10 @@ export const ProfileCard = ({ profileItem }) => {
         className={classes.profileCardImg}
       />
       <div className={classes.profileCardTxt}>
-        <Typography variant="h5" className={classes.profileCardName}>
+        <Typography variant="h6" className={classes.profileCardName}>
           {profileItem?.name}
         </Typography>
-        <Typography variant="body1" className={classes.profileCardUsername}>
+        <Typography variant="body2" className={classes.profileCardUsername}>
           @{profileItem?.username}
         </Typography>
       </div>

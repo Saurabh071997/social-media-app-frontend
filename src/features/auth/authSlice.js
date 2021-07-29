@@ -107,8 +107,17 @@ const authSlice = createSlice({
 
     [signupUserWithCredentials.fulfilled]: (state, action) => {
       const responseObj = action.payload;
-      state.status = "signup_success";
-      state.statusCode = responseObj.status;
+      state.status = "tokenReceived"
+      state.statusCode = 201
+      state.currentUser = responseObj?.newUser 
+      state.accessToken = responseObj.accessToken;
+      localStorage?.setItem(
+        "accessToken",
+        JSON.stringify(responseObj.accessToken)
+      );
+      axios.defaults.headers.common[
+        "Authorization"
+      ] = `Bearer ${responseObj.accessToken}`;
     },
 
     [signupUserWithCredentials.rejected]: (state, action) => {

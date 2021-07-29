@@ -20,8 +20,8 @@ export const DesktopHome = () => {
   const classes = useAppStyle();
   return (
     <div className={classes.pageContainer}>
-      <Container maxWidth="lg" >
-        <Grid container direction="row">
+      <Container maxWidth="md" style={{padding:"0rem"}}>
+        <Grid container direction="row" >
           <Grid item className="flex-left">
             <Sidebar/>
           </Grid>

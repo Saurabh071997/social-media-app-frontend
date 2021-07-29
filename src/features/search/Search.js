@@ -111,7 +111,7 @@ export const SearchDesktop = () => {
   const classes = useAppStyle();
   return (
     <div className={classes.pageContainer}>
-      <Container maxWidth="lg">
+      <Container maxWidth="md" style={{ padding: "0rem" }}>
         <Grid container direction="row">
           <Grid item className="flex-left">
             <Sidebar />
