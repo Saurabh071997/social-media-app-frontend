@@ -25,6 +25,22 @@ export const SearchLayout = () => {
     (state) => state.search
   );
 
+  const { currentUser } = useSelector((state) => state.auth);
+
+  function debounceSearch(callback, delay) {
+    let timer;
+    return function () {
+      let context = this;
+      let args = [searchValue];
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        searchValue?.length >= 1 && dispatch(callback.apply(context, args));
+      }, delay);
+    };
+  }
+
+  const handleSearch = debounceSearch(searchUsers, 500);
+
   return (
     <>
       <AppBar position="sticky">
@@ -45,6 +61,7 @@ export const SearchLayout = () => {
           onChange={(e) => {
             setSearchValue(e.target.value.trim());
           }}
+          onKeyUp={handleSearch}
         />
       </div>
 
@@ -63,6 +80,8 @@ export const SearchLayout = () => {
                   Based on Search Result
                 </Typography>
                 {searchedUsers.map((userItem) => {
+                  if (userItem?._id === currentUser?._id) return null;
+
                   return (
                     <div key={userItem?._id}>
                       <ProfileCard profileItem={userItem} />
@@ -103,6 +122,7 @@ export const SearchLayout = () => {
           </div>
         </div>
       )}
+      <div style={{ minHeight: "5vh" }}></div>
     </>
   );
 };
