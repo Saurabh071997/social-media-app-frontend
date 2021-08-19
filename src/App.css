@@ -1,39 +1,82 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap");
+
+body {
+  padding: 0px;
+  margin: 0px;
+  font-family: "Roboto", sans-serif;
+}
+
 .App {
-  text-align: center;
+  padding: 0px;
+  margin: 0px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.toast-class {
+  width: 97%;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-float infinite 3s ease-in-out;
-  }
-}
-
-.App-header {
-  min-height: 100vh;
+.post-media-container {
+  width: 95%;
+  margin: 0.5rem auto 1rem auto;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  overflow-x: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
-.App-link {
-  color: rgb(112, 76, 182);
+.post-media-container::-webkit-scrollbar {
+  display: none;
 }
 
-@keyframes App-logo-float {
-  0% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(10px);
-  }
-  100% {
-    transform: translateY(0px);
-  }
+.post-comment-sub {
+  display: flex;
+  flex-direction: column-reverse;
+  margin: 0.5rem 0rem 1rem 0rem;
+  padding: 0.5rem;
+  max-height: 10vh;
+  overflow-y: scroll;
+  -ms-overflow-style: scroll;
+  scrollbar-width: 2px;
+}
+
+
+.post-comment-sub::-webkit-scrollbar {
+  width: 2px;
+}
+
+.post-comment-sub::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.post-comment-sub::-webkit-scrollbar-thumb {
+  background: #475569;
+}
+
+.flex-left {
+  /* background-color:green; */
+  width: 30%;
+  flex-shrink: 1;
+  height: 90vh;
+  position: sticky;
+  top: 0rem;
+  overflow:scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.flex-left::-webkit-scrollbar {
+  display: none;
+}
+
+.profile-text{
+  color:#E2E8F0;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: auto;
+}
+
+.footer{
+  padding:2rem 1rem;
+  background-color: #0F172A;
+  min-height: 30vh;
 }
