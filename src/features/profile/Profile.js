@@ -1,11 +1,4 @@
-import {
-  AppBar,
-  Toolbar,
-  Button,
-  Typography,
-  Container,
-  Grid,
-} from "@material-ui/core";
+import { AppBar, Toolbar, Button, Typography } from "@material-ui/core";
 import EventIcon from "@material-ui/icons/Event";
 import EmailIcon from "@material-ui/icons/Email";
 import RoomIcon from "@material-ui/icons/Room";
@@ -14,10 +7,7 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useWindowSize } from "../../utils/useWindowSize";
-import useAppStyle from "../../appStyle";
 import useStyle from "./profileStyle";
-import { NavigationMob } from "../../components/NavigationMob";
-import { Sidebar } from "../../components/Sidebar";
 import { ProfileCard } from "../../components/ProfileCard";
 import {
   getUserProfile,
@@ -28,6 +18,8 @@ import {
 import { userFollowed, userUnFollowed } from "../auth/authSlice";
 import default_img from "../../images/profile.jpg";
 import { PostCard } from "../post/PostCard";
+import { ShowDesktopView } from "../../components/ShowDesktopView";
+import { ShowMobileView } from "../../components/ShowMobileView";
 
 export const ProfileLayout = () => {
   const classes = useStyle();
@@ -366,34 +358,6 @@ export const ProfileLayout = () => {
   );
 };
 
-export const ProfileDesktop = () => {
-  const classes = useAppStyle();
-  return (
-    <div className={classes.pageContainer}>
-      <Container maxWidth="md" style={{ padding: "0rem" }}>
-        <Grid container direction="row">
-          <Grid item className="flex-left">
-            <Sidebar />
-          </Grid>
-          <Grid item className={classes.flexRight}>
-            <ProfileLayout />
-          </Grid>
-        </Grid>
-      </Container>
-    </div>
-  );
-};
-
-export const ProfileMob = () => {
-  const appStyleClasses = useAppStyle();
-  return (
-    <div className={appStyleClasses.pageContainer}>
-      <NavigationMob />
-      <ProfileLayout />
-    </div>
-  );
-};
-
 export const Profile = () => {
   const [, width] = useWindowSize();
   const { profileId } = useParams();
@@ -405,5 +369,9 @@ export const Profile = () => {
     isUserAvailable && dispatch(getUserProfile(profileId));
   }, [dispatch, profileId, isUserAvailable]);
 
-  return width <= 700 ? <ProfileMob /> : <ProfileDesktop />;
+  return width <= 700 ? (
+    <ShowMobileView element={<ProfileLayout />} />
+  ) : (
+    <ShowDesktopView element={<ProfileLayout />} />
+  );
 };

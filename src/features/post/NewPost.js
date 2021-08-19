@@ -1,21 +1,11 @@
-import {
-  AppBar,
-  Toolbar,
-  Button,
-  Typography,
-  Container,
-  Grid,
-} from "@material-ui/core";
+import { AppBar, Toolbar, Button, Typography } from "@material-ui/core";
 import PhotoLibraryIcon from "@material-ui/icons/PhotoLibrary";
 import MovieIcon from "@material-ui/icons/Movie";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import useAppStyle from "../../appStyle";
 import useStyle from "./newPostStyle";
-import { NavigationMob } from "../../components/NavigationMob";
-import { Sidebar } from "../../components/Sidebar";
 import { useWindowSize } from "../../utils/useWindowSize";
 import { toggleToast } from "../toast/toastSlice";
 import {
@@ -24,6 +14,8 @@ import {
   uploadVideos,
 } from "../../services/post";
 import { addNewPost, resetPostStatus } from "./postSlice";
+import { ShowDesktopView } from "../../components/ShowDesktopView";
+import { ShowMobileView } from "../../components/ShowMobileView";
 
 export const NewPostLayout = () => {
   const classes = useStyle();
@@ -250,35 +242,11 @@ export const NewPostLayout = () => {
   );
 };
 
-export const NewPostDesktop = () => {
-  const classes = useAppStyle();
-  return (
-    <div className={classes.pageContainer}>
-      <Container maxWidth="md" style={{ padding: "0rem" }}>
-        <Grid container direction="row">
-          <Grid item className="flex-left">
-            <Sidebar />
-          </Grid>
-          <Grid item className={classes.flexRight}>
-            <NewPostLayout />
-          </Grid>
-        </Grid>
-      </Container>
-    </div>
-  );
-};
-
-export const NewPostMob = () => {
-  const appStyleClasses = useAppStyle();
-  return (
-    <div className={appStyleClasses.pageContainer}>
-      <NavigationMob />
-      <NewPostLayout />
-    </div>
-  );
-};
-
 export const NewPost = () => {
   const [, width] = useWindowSize();
-  return width <= 700 ? <NewPostMob /> : <NewPostDesktop />;
+  return width <= 700 ? (
+    <ShowMobileView element={<NewPostLayout />} />
+  ) : (
+    <ShowDesktopView element={<NewPostLayout />} />
+  );
 };

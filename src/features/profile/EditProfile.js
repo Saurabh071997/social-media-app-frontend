@@ -5,7 +5,6 @@ import {
   TextField,
   Typography,
   Button,
-  Grid,
 } from "@material-ui/core";
 import CameraAltIcon from "@material-ui/icons/CameraAlt";
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -13,15 +12,14 @@ import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useWindowSize } from "../../utils/useWindowSize";
-import useAppStyle from "../../appStyle";
 import useStyle from "./editProfileStyle";
-import { NavigationMob } from "../../components/NavigationMob";
-import { Sidebar } from "../../components/Sidebar";
 import default_img from "../../images/profile.jpg";
 import { updateUserProfile } from "./profileSlice";
 import { getUserDetails } from "../auth/authSlice";
 import { toggleToast } from "../toast/toastSlice";
 import { uploadProfileImg } from "../../services/profile";
+import { ShowDesktopView } from "../../components/ShowDesktopView";
+import { ShowMobileView } from "../../components/ShowMobileView";
 
 export const EditProfileLayout = () => {
   const [, width] = useWindowSize();
@@ -313,35 +311,11 @@ export const EditProfileLayout = () => {
   );
 };
 
-export const EditProfileDesktop = () => {
-  const classes = useAppStyle();
-  return (
-    <div className={classes.pageContainer}>
-      <Container maxWidth="md" style={{ padding: "0rem" }}>
-        <Grid container direction="row">
-          <Grid item className="flex-left">
-            <Sidebar />
-          </Grid>
-          <Grid item className={classes.flexRight}>
-            <EditProfileLayout />
-          </Grid>
-        </Grid>
-      </Container>
-    </div>
-  );
-};
-
-export const EditProfileMob = () => {
-  const appStyleClasses = useAppStyle();
-  return (
-    <div className={appStyleClasses.pageContainer}>
-      <NavigationMob />
-      <EditProfileLayout />
-    </div>
-  );
-};
-
 export const EditProfile = () => {
   const [, width] = useWindowSize();
-  return width <= 700 ? <EditProfileMob /> : <EditProfileDesktop />;
+  return width <= 700 ? (
+    <ShowMobileView element={<EditProfileLayout />} />
+  ) : (
+    <ShowDesktopView element={<EditProfileLayout />} />
+  );
 };

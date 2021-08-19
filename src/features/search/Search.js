@@ -1,21 +1,14 @@
-import {
-  AppBar,
-  Toolbar,
-  Typography,
-  Container,
-  Grid,
-} from "@material-ui/core";
+import { AppBar, Toolbar, Typography } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import useAppStyle from "../../appStyle";
 import useStyle from "./searchStyle";
-import { NavigationMob } from "../../components/NavigationMob";
-import { Sidebar } from "../../components/Sidebar";
 import { useWindowSize } from "../../utils/useWindowSize";
 import { searchUsers, resetSearch, getFollowSuggestions } from "./searchSlice";
 import { ProfileCard } from "../../components/ProfileCard";
+import { ShowDesktopView } from "../../components/ShowDesktopView";
+import { ShowMobileView } from "../../components/ShowMobileView";
 
 export const SearchLayout = () => {
   const classes = useStyle();
@@ -127,34 +120,6 @@ export const SearchLayout = () => {
   );
 };
 
-export const SearchDesktop = () => {
-  const classes = useAppStyle();
-  return (
-    <div className={classes.pageContainer}>
-      <Container maxWidth="md" style={{ padding: "0rem" }}>
-        <Grid container direction="row">
-          <Grid item className="flex-left">
-            <Sidebar />
-          </Grid>
-          <Grid item className={classes.flexRight}>
-            <SearchLayout />
-          </Grid>
-        </Grid>
-      </Container>
-    </div>
-  );
-};
-
-export const SearchMob = () => {
-  const appStyleClasses = useAppStyle();
-  return (
-    <div className={appStyleClasses.pageContainer}>
-      <NavigationMob />
-      <SearchLayout />
-    </div>
-  );
-};
-
 export const Search = () => {
   const dispatch = useDispatch();
   useEffect(() => {
@@ -168,5 +133,9 @@ export const Search = () => {
     isUserAvailable && dispatch(getFollowSuggestions());
   }, [isUserAvailable, dispatch]);
   const [, width] = useWindowSize();
-  return width <= 700 ? <SearchMob /> : <SearchDesktop />;
+  return width <= 700 ? (
+    <ShowMobileView element={<SearchLayout />} />
+  ) : (
+    <ShowDesktopView element={<SearchLayout />} />
+  );
 };

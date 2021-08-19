@@ -1,11 +1,4 @@
-import {
-  AppBar,
-  Toolbar,
-  Typography,
-  Button,
-  Container,
-  Grid,
-} from "@material-ui/core";
+import { AppBar, Toolbar, Typography, Button } from "@material-ui/core";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import FlareIcon from "@material-ui/icons/Flare";
 import moment from "moment";
@@ -13,15 +6,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import useStyle from "./notificationStyle";
-import useAppStyle from "../../appStyle";
 import { useWindowSize } from "../../utils/useWindowSize";
 import {
   getUserNotifications,
   updateUserNotifications,
 } from "./notificationSlice";
-import { NavigationMob } from "../../components/NavigationMob";
-import { Sidebar } from "../../components/Sidebar";
 import default_img from "../../images/profile.jpg";
+import { ShowMobileView } from "../../components/ShowMobileView";
+import { ShowDesktopView } from "../../components/ShowDesktopView";
 
 export const NotificationLayout = () => {
   const classes = useStyle();
@@ -159,34 +151,6 @@ export const NotificationLayout = () => {
   );
 };
 
-export const NotificationsDesktop = () => {
-  const classes = useAppStyle();
-  return (
-    <div className={classes.pageContainer}>
-      <Container maxWidth="md" style={{ padding: "0rem" }}>
-        <Grid container direction="row">
-          <Grid item className="flex-left">
-            <Sidebar />
-          </Grid>
-          <Grid item className={classes.flexRight}>
-            <NotificationLayout />
-          </Grid>
-        </Grid>
-      </Container>
-    </div>
-  );
-};
-
-export const NotificationsMob = () => {
-  const appStyleClasses = useAppStyle();
-  return (
-    <div className={appStyleClasses.pageContainer}>
-      <NavigationMob />
-      <NotificationLayout />
-    </div>
-  );
-};
-
 export const Notifications = () => {
   const [, width] = useWindowSize();
   const dispatch = useDispatch();
@@ -195,5 +159,9 @@ export const Notifications = () => {
     isUserAvailable && dispatch(getUserNotifications());
   }, [isUserAvailable, dispatch]);
 
-  return width <= 700 ? <NotificationsMob /> : <NotificationsDesktop />;
+  return width <= 700 ? (
+    <ShowMobileView element={<NotificationLayout />} />
+  ) : (
+    <ShowDesktopView element={<NotificationLayout />} />
+  );
 };
